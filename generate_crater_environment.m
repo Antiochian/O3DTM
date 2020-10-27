@@ -126,9 +126,9 @@ switch crater_name
             %%%need to add if double or single digit?
             %%is crater_name(4) a digit?
             if(~isnan(str2double('crater_name(4)')) == 1)
-                crater_numel = str2double(carter_name(3:4));
+                crater_numel = str2double(crater_name(3:4));
             else
-                crater_numel = str2double(carter_name(3));
+                crater_numel = str2double(crater_name(3));
             end
             switch crater_numel
                 case '1'

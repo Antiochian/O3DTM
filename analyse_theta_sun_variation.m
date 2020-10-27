@@ -1,7 +1,7 @@
 % ANALYSE_THETA_SUN_VARIATION plots solar angle values from ray tracing
 % code, used for debugging.
 
-load('C:\Users\Oliver\Dropbox\mphys_project\mphys_project_static\crater_environments\ray_tracing\seasons\ls8_16ppd_wide_compressed_ray_tracing.mat'
+load('C:\Users\Oliver\Dropbox\mphys_project\mphys_project_static\crater_environments\ray_tracing\seasons\ls8_16ppd_wide_compressed_ray_tracing.mat')
 
 
 T_data = load(create_static_path('outputs/ls_temperatures_extremes/ls8_16ppd_wide_compressed_temperatures_extremes.mat'));
