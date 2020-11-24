@@ -33,8 +33,9 @@ else
     long_min = min(long_limits);
     long_max = max(long_limits);
 end
-
-fileID = fopen([filelocation,filename,'.lbl'],'r');
+inp = strcat(filelocation,filename,'.lbl')
+% fileID = fopen([filelocation,filename,'.lbl'],'r');
+fileID = fopen(inp,'r');
 text_data = fscanf(fileID,'%s');
 
 pointer = strfind(text_data,'MAP_RESOLUTION');
