@@ -267,4 +267,7 @@ Tmin_ltim_matrix = mod(Tmin_ltim_matrix,24);
         text_data = text_data(pointer+1:pointer+23);
         back = datetime(text_data, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss.S');
     end
+
+Tmax_matrix
+Tmin_matrix
 end

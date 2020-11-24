@@ -156,7 +156,7 @@ lat2 = intrinsicYToLatitude(R, y2);
 lon2 = intrinsicXToLongitude(R, x2);
 
 for k = 1:numel(lat2)
-   [visprofile,~,~,lat,lon] = calculateLOS(F,R,lat1,lon1,lat2(k),lon2(k),oalt,talt,...
+   [visprofile,~,~,lat,lon] = my_calculateLOS(F,R,lat1,lon1,lat2(k),lon2(k),oalt,talt,...
        observerAltitudeIsAGL,targetAltitudeIsAGL,actualradius,apparentradius);
      
    vismap = embed(lat,lon,visprofile,vismap,R);
@@ -171,7 +171,7 @@ lon2 = intrinsicXToLongitude(R, row);
 vis = false(size(row));
 
 for k = 1:numel(row)
-    visprofile = calculateLOS(F,R,lat1,lon1,lat2(k),lon2(k),oalt,talt,...
+    visprofile = my_calculateLOS(F,R,lat1,lon1,lat2(k),lon2(k),oalt,talt,...
         observerAltitudeIsAGL,targetAltitudeIsAGL,actualradius,apparentradius);
     vis(k) = visprofile(end);
 end
