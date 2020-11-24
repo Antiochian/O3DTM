@@ -66,6 +66,7 @@ switch crater_name
         return
     case 'ls_16ppd_wide'
         for idx = flip(1:8)
+            fprintf('ls%d_16ppd_wide', idx);
             generate_crater_environment(sprintf('ls%d_16ppd_wide', idx), false, true, true);
         end
         return
@@ -128,8 +129,9 @@ switch crater_name
             if(~isnan(str2double('crater_name(4)')) == 1)
                 crater_numel = str2double(crater_name(3:4));
             else
-                crater_numel = str2double(crater_name(3));
+                crater_numel = str2double(crater_name(3))
             end
+            crater_numel = num2str(1);
             switch crater_numel
                 case '1'
                     ls_lat = -79.30;
