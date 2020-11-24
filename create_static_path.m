@@ -10,6 +10,7 @@ function static_path = create_static_path(internal_path)
 if nargin == 0
     internal_path = '';
 end
-static_root = '../../mphys_project_static/';
+% static_root = '../../mphys_project_static/';
+static_root = 'D:\Home\Documents\MATLAB\O3DTM_antiochian\mphys_project_static\';
 static_path = [static_root, internal_path];
 end
