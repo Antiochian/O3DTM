@@ -18,7 +18,28 @@ else
 end
     
 
-read_lbl_file_data_lola
+% read_lbl_file_data_lola
+
+inp = strcat(filelocation,filename,'.lbl')
+% fileID = fopen([filelocation,filename,'.lbl'],'r');
+fileID = fopen(inp,'r');
+text_data = fscanf(fileID,'%s');
+
+
+pointer = strfind(text_data,'CENTER_LATITUDE');
+CENTER_LATITUDE = find_str(text_data,pointer);
+pointer = strfind(text_data,'CENTER_LONGITUDE');
+CENTER_LONGITUDE = find_str(text_data,pointer);
+pointer = strfind(text_data,'LINE_PROJECTION_OFFSET');
+LINE_PROJECTION_OFFSET = find_str(text_data,pointer);
+pointer = strfind(text_data,'MAP_RESOLUTION');
+MAP_RESOLUTION = find_str(text_data,pointer);
+pointer = strfind(text_data,'OFFSET');
+OFFSET = find_str(text_data,pointer);
+pointer = strfind(text_data,'SAMPLE_PROJECTION_OFFSET');
+SAMPLE_PROJECTION_OFFSET = find_str(text_data,pointer);
+pointer = strfind(text_data,'SCALING_FACTOR');
+SCALING_FACTOR = find_str(text_data,pointer);
 
 A = imread(image_location);
 albedo_data = double(A);
@@ -33,5 +54,23 @@ for SAMPLE = 1:size(albedo_data,2)
     LON(SAMPLE) = CENTER_LONGITUDE + (SAMPLE -SAMPLE_PROJECTION_OFFSET - 1) / MAP_RESOLUTION;
 end
 rmpath(pathname)
+end
+
+function back = find_str(text_data,pointer)
+
+for i=pointer:pointer+50
+    if(text_data(i) == '=')
+        pointer =i;
+        break
+    end
+end
+count = 1;
+for i=pointer:pointer+10
+    if((double(text_data(i)) < 58 && double(text_data(i)) > 47) || double(text_data(i)) == 46 || double(text_data(i)) == 45)
+        text_temp(count) = text_data(i);
+        count = count +1;        
+    end
+end
+back = str2num(text_temp);
 end
 
