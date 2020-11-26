@@ -72,7 +72,8 @@ end
 
 fprintf('Simulating temperatures: "%s", T_mode=%s, t_wait=%s\n', crater_name, string(T_mode), string(t_wait));
 simulation_start_dtm = datetime;
-source_path = sprintf('inputs/crater_environments/%s.mat', crater_name);
+%source_path = sprintf('inputs/crater_environments/%s.mat', crater_name);
+source_path = sprintf('crater_environments/%s.mat', crater_name);
 crater_data = load(source_path);
 crater_data = crater_data.data;
 scattering_power_arr = linspace(start_power, end_power, n_powers);
@@ -116,7 +117,7 @@ data.t_wait = t_wait;
 data.description = 'Crater temperatures for different scattering power values';
 data.created = datetime;
 
-target_name = sprintf('outputs/3d/simulated_T/%s_%s_%s_%ipts.mat', crater_name, string(T_mode), string(t_wait), n_powers);
+target_name = sprintf('mphys_project_static/outputs/3d/simulated_T/%s_%s_%s_%ipts.mat', crater_name, string(T_mode), string(t_wait), n_powers);
 save(target_name, 'data')
 
 fprintf('\tDone in %s\n', datetime - simulation_start_dtm)

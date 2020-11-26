@@ -127,7 +127,7 @@ clear raw_dtm_arr dtm_interp_arr sub_sun_long_arr
 if use_seasons
     t_steps = numel(decl_arr);
 else
-    t_steps = P/dt;
+    t_steps = P/dt; %P is the lunar diurnal period, in seconds (see https://en.wikipedia.org/wiki/Lunar_day)
 end
 dh = 360/t_steps;
 theta_3dmat = NaN(numel(lat_arr), numel(long_arr), t_steps, 'single');
@@ -155,7 +155,7 @@ for lat_idx = 1:numel(lat_arr)
         end
         
         if use_seasons
-            h_arr_local = h_arr + long - mean(long_arr);
+            h_arr_local = h_arr + long - mean(long_arr); %what is this?
             decl_arr_local = decl_arr;
         else
             h_arr_local = [];

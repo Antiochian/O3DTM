@@ -190,10 +190,14 @@ switch crater_name
         end
 end
 %% Load LOLA data
+%reads in elevation data for various lat/longs taken from LOLA measurements
 fprintf('Loading LOLA elevation data... ')
 [elevation_matrix, lat_arr, long_arr] = read_lola_height_data(ppd, [lat_min, lat_max], [long_min, long_max]);
 
 % get distances
+%converts the lat/lon measurements into cartesian X-Y coordinates which
+%are loaded into xEast and yNorth such that the cartesian coordinates for
+%point "i" are [xEast(lat(i), lon(i) , yNorth(lat(i), lon(i))]
 ref_sphere = referenceSphere('moon');
 center_lat = mean(lat_arr);
 center_long = mean(long_arr);
@@ -214,23 +218,26 @@ fprintf('Done\n')
 %% Get A0 data
 fprintf('Calculating albedo data... ')
 if ppd > 4
-    albedo_ppd = 8;
+    albedo_ppd = 8; %Lola doesnt have 16ppd data
 else
     albedo_ppd = 4;
 end
 [albedo_matrix, albedo_lat_arr, albedo_long_arr] = read_lola_A0_data(albedo_ppd); % use highest resolution albedo data possible
-parameters = define_parameters;
-albedo_matrix = scale_data(albedo_matrix, parameters.A0);
+%note here that the albedo_lat_arr, etc are the ALL lat/lons read by lola,
+%so (a) we need only a few of them and (b) some interpolation is required
+parameters = define_parameters; %get physical constants
+albedo_matrix = scale_data(albedo_matrix, parameters.A0); %scale LOLA data so average albedo matches bond albedo at normal solar incedence
 [albedo_long_matrix, albedo_lat_matrix] = meshgrid(albedo_long_arr, albedo_lat_arr);
 [long_matrix, lat_matrix] = meshgrid(long_arr, lat_arr);
+%interpolation step to provide albedo_matrix that matches long/lat_matrix
 albedo_matrix = interp2(albedo_long_matrix, albedo_lat_matrix, albedo_matrix, long_matrix, lat_matrix);
-A0 = mean(albedo_matrix(:));
+A0 = mean(albedo_matrix(:)); %Why do we set A0 like this? Shouldn't we scale it like we did in line 229?
 fprintf('Done\n')
 
 %% Load Diviner data
 fprintf('Loading Diviner temperature data...\n')
 [Tmax_matrix, Tmin_matrix, Tmax_ltim_matrix, Tmin_ltim_matrix, Tmax_dtm_matrix, Tmin_dtm_matrix] = find_diviner_extreme_temperatures(ppd, lat_arr, long_arr);
-
+%
 
 %% Save data
 fprintf('Generating environment for "%s"... ', crater_name)
@@ -258,6 +265,8 @@ target_name = create_static_path(sprintf('crater_environments/%s.mat', crater_na
 save(target_name, 'data')
 fprintf('Done\n')
 if generate_solar_angles
+    %i guess use_seasons parameter relies on non-seasonal data being available (?), so
+    %program has to run twice
     generate_crater_ray_tracing(crater_name, false);
     generate_crater_ray_tracing(crater_name, true);
 end
